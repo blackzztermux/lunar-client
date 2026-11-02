@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#09090f">
+    <title>{{ app_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" id="sidebar">
+            <div class="brand">
+                <div class="brand-icon">☾</div>
+                <div>
+                    <h2>LUNAR<span>CLIENT</span></h2>
+                    <small>CONTROL CENTER</small>
+                </div>
+                <button class="close-menu" id="closeMenu" aria-label="Fechar menu">×</button>
+            </div>
+
+            <div class="nav-label">MENU PRINCIPAL</div>
+            <nav class="navigation">
+                <button class="nav-item active" data-page="home"><span>⌂</span> Início</button>
+                <button class="nav-item" data-page="remote"><span>▣</span> PC remoto</button>
+                <button class="nav-item" data-page="performance"><span>⌁</span> Desempenho</button>
+                <button class="nav-item" data-page="hardware"><span>▤</span> Hardware</button>
+                <button class="nav-item" data-page="windows"><span>▧</span> Windows / ISO</button>
+                <button class="nav-item" data-page="friends"><span>♧</span> Amigos</button>
+            </nav>
+
+            <div class="nav-label">SISTEMA</div>
+            <nav class="navigation">
+                <button class="nav-item" data-page="settings"><span>⚙</span> Configurações</button>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="status-dot"></div>
+                <div>
+                    <strong>Cliente local</strong>
+                    <small id="sidebarStatus">Aguardando conexão...</small>
+                </div>
+            </div>
+        </aside>
+
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <main class="main-content">
+            <header class="topbar">
+                <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">☰</button>
+                <div class="breadcrumb">Lunar Client <span>/</span> <strong id="currentSection">Início</strong></div>
+                <div class="topbar-right">
+                    <span class="live-indicator"><i></i> LOCAL</span>
+                    <div class="avatar">L</div>
+                </div>
+            </header>
+
+            <div class="page-container">
+                <section class="page active" id="page-home">
+                    <div class="welcome">
+                        <div>
+                            <div class="eyebrow"><span class="sparkle">✦</span> SEU CENTRO DE CONTROLE</div>
+                            <h1>Bem-vindo ao <span>Lunar.</span></h1>
+                            <p>Seu espaço para monitoramento, hardware e acesso remoto.</p>
+                        </div>
+                        <div class="moon-art" aria-hidden="true">
+                            <div class="moon-glow"></div>
+                            <div class="moon">☾</div>
+                            <span class="star star-one">✦</span>
+                            <span class="star star-two">✧</span>
+                            <span class="star star-three">·</span>
+                        </div>
+                    </div>
+
+                    <div class="section-heading">
+                        <div>
+                            <h2>Visão geral</h2>
+                            <p>Monitoramento do dispositivo que executa o cliente.</p>
+                        </div>
+                        <span class="updated-label" id="lastUpdated">Carregando...</span>
+                    </div>
+
+                    <div class="stats-grid">
+                        <article class="stat-card">
+                            <div class="stat-top"><span>Processador</span><span class="stat-icon purple">⌁</span></div>
+                            <div class="stat-value" id="cpuValue">--<small>%</small></div>
+                            <div class="progress-track"><div class="progress-fill purple-fill" id="cpuBar"></div></div>
+                            <div class="stat-footer">Uso atual da CPU</div>
+                        </article>
+
+                        <article class="stat-card">
+                            <div class="stat-top"><span>Memória RAM</span><span class="stat-icon blue">▤</span></div>
+                            <div class="stat-value" id="ramValue">--<small>%</small></div>
+                            <div class="progress-track"><div class="progress-fill blue-fill" id="ramBar"></div></div>
+                            <div class="stat-footer" id="ramDetails">Aguardando dados</div>
+                        </article>
+
+                        <article class="stat-card">
+                            <div class="stat-top"><span>Armazenamento</span><span class="stat-icon pink">▣</span></div>
+                            <div class="stat-value" id="diskValue">--<small>%</small></div>
+                            <div class="progress-track"><div class="progress-fill pink-fill" id="diskBar"></div></div>
+                            <div class="stat-footer" id="diskDetails">Aguardando dados</div>
+                        </article>
+
+                        <article class="stat-card">
+                            <div class="stat-top"><span>Núcleos / CPUs</span><span class="stat-icon green">◈</span></div>
+                            <div class="stat-value" id="coreValue">--</div>
+                            <div class="stat-footer">Unidades lógicas detectadas</div>
+                        </article>
+                    </div>
+
+                    <div class="content-grid">
+                        <article class="panel device-panel">
+                            <div class="panel-heading">
+                                <div><h3>Dispositivo atual</h3><p>Informações do sistema local</p></div>
+                                <span class="pill">LOCAL</span>
+                            </div>
+                            <div class="device-icon">▣</div>
+                            <h2 id="deviceName">Detectando dispositivo...</h2>
+                            <p id="systemInfo">Aguardando informações do sistema</p>
+                            <div class="info-row"><span>Estado do cliente</span><strong class="text-green" id="connectionStatus">Verificando</strong></div>
+                            <div class="info-row"><span>Tempo nesta sessão</span><strong id="uptimeValue">--</strong></div>
+                            <div class="info-row"><span>Arquitetura</span><strong id="architectureValue">--</strong></div>
+                        </article>
+
+                        <article class="panel quick-panel">
+                            <div class="panel-heading">
+                                <div><h3>Acesso rápido</h3><p>Navegue pelas ferramentas</p></div>
+                            </div>
+                            <button class="quick-action" data-page="remote">
+                                <span class="quick-icon purple">▣</span>
+                                <span><strong>PC remoto</strong><small>Configurar acesso a outro computador</small></span>
+                                <span class="quick-arrow">›</span>
+                            </button>
+                            <button class="quick-action" data-page="performance">
+                                <span class="quick-icon blue">⌁</span>
+                                <span><strong>Desempenho</strong><small>Consultar métricas do dispositivo</small></span>
+                                <span class="quick-arrow">›</span>
+                            </button>
+                            <button class="quick-action" data-page="hardware">
+                                <span class="quick-icon pink">▤</span>
+                                <span><strong>Hardware</strong><small>Ver informações disponíveis</small></span>
+                                <span class="quick-arrow">›</span>
+                            </button>
+                            <button class="quick-action" data-page="settings">
+                                <span class="quick-icon green">⚙</span>
+                                <span><strong>Configurações</strong><small>Ver opções do cliente</small></span>
+                                <span class="quick-arrow">›</span>
+                            </button>
+                        </article>
+                    </div>
+
+                    <div class="notice"><span>ⓘ</span><p><strong>Sobre os dados:</strong> as métricas exibidas são do dispositivo que executa o backend. Elas não representam um PC remoto.</p></div>
+                </section>
+
+                <section class="page" id="page-remote">
+                    <div class="page-title"><div class="eyebrow">CONECTIVIDADE</div><h1>PC <span>remoto.</span></h1><p>Configure o endereço de um serviço de área de trabalho remota.</p></div>
+                    <article class="panel remote-card">
+                        <div class="remote-illustration">▣</div>
+                        <h2>Conecte seu ambiente</h2>
+                        <p>O Lunar Client não cria um computador Windows sozinho. Você precisa de um PC ou serviço remoto já configurado.</p>
+                        <label for="remoteUrl">Endereço do serviço remoto</label>
+                        <input id="remoteUrl" type="url" placeholder="https://seu-servico-remoto.example">
+                        <div class="button-row">
+                            <button class="primary-button" id="saveRemote">Salvar endereço</button>
+                            <button class="secondary-button" id="openRemote">Abrir endereço</button>
+                        </div>
+                        <p class="help-text" id="remoteMessage">O endereço salvo será armazenado nas configurações locais do navegador nesta sessão.</p>
+                    </article>
+                </section>
+
+                <section class="page" id="page-performance">
+                    <div class="page-title"><div class="eyebrow">MONITORAMENTO</div><h1>Desempenho<span>.</span></h1><p>Acompanhe as métricas do dispositivo local em tempo real.</p></div>
+                    <div class="stats-grid">
+                        <article class="stat-card"><div class="stat-top"><span>Uso de CPU</span><span class="stat-icon purple">⌁</span></div><div class="stat-value" id="cpuValue2">--<small>%</small></div><div class="progress-track"><div class="progress-fill purple-fill" id="cpuBar2"></div></div><div class="stat-footer">Uso atual</div></article>
+                        <article class="stat-card"><div class="stat-top"><span>Uso de RAM</span><span class="stat-icon blue">▤</span></div><div class="stat-value" id="ramValue2">--<small>%</small></div><div class="progress-track"><div class="progress-fill blue-fill" id="ramBar2"></div></div><div class="stat-footer" id="ramDetails2">--</div></article>
+                        <article class="stat-card"><div class="stat-top"><span>Disco</span><span class="stat-icon pink">▣</span></div><div class="stat-value" id="diskValue2">--<small>%</small></div><div class="progress-track"><div class="progress-fill pink-fill" id="diskBar2"></div></div><div class="stat-footer" id="diskDetails2">--</div></article>
+                        <article class="stat-card"><div class="stat-top"><span>Processadores lógicos</span><span class="stat-icon green">◈</span></div><div class="stat-value" id="coreValue2">--</div><div class="stat-footer">Detectados pelo sistema</div></article>
+                    </div>
+                    <article class="panel"><div class="panel-heading"><div><h3>Tráfego de rede</h3><p>Contadores acumulados desde a inicialização do sistema</p></div></div><div class="network-grid"><div><span>Dados enviados</span><strong id="networkSent">--</strong></div><div><span>Dados recebidos</span><strong id="networkReceived">--</strong></div></div></article>
+                </section>
+
+                <section class="page" id="page-hardware">
+                    <div class="page-title"><div class="eyebrow">INFORMAÇÕES DO DISPOSITIVO</div><h1>Hardware<span>.</span></h1><p>Detalhes que o sistema operacional disponibiliza para o cliente.</p></div>
+                    <article class="panel hardware-list">
+                        <div class="info-row"><span>Nome do dispositivo</span><strong id="hardwareDevice">--</strong></div>
+                        <div class="info-row"><span>Sistema operacional</span><strong id="hardwareSystem">--</strong></div>
+                        <div class="info-row"><span>Versão do sistema</span><strong id="hardwareRelease">--</strong></div>
+                        <div class="info-row"><span>Arquitetura</span><strong id="hardwareMachine">--</strong></div>
+                        <div class="info-row"><span>Processadores lógicos</span><strong id="hardwareCpu">--</strong></div>
+                        <div class="info-row"><span>Memória total</span><strong id="hardwareRam">--</strong></div>
+                        <div class="info-row"><span>Armazenamento total</span><strong id="hardwareDisk">--</strong></div>
+                    </article>
+                    <div class="notice"><span>ⓘ</span><p>Alguns detalhes de hardware, como temperatura, GPU e modelo exato do processador, podem não estar disponíveis no Android ou no ambiente Python atual.</p></div>
+                </section>
+
+                <section class="page" id="page-windows">
+                    <div class="page-title"><div class="eyebrow">AMBIENTES</div><h1>Windows / ISO<span>.</span></h1><p>Organize seus recursos de instalação e ambientes remotos.</p></div>
+                    <article class="panel">
+                        <div class="remote-illustration">▧</div>
+                        <h2>Central de ambientes</h2>
+                        <p>Esta área pode receber atalhos para ISOs e ferramentas oficiais. O Lunar Client não baixa, instala nem executa Windows automaticamente.</p>
+                        <div class="info-row"><span>Ambiente Windows remoto</span><strong>A configurar</strong></div>
+                        <div class="info-row"><span>Gerenciador de ISO</span><strong>Planejado</strong></div>
+                        <a class="primary-button link-button" href="https://www.microsoft.com/software-download/" target="_blank" rel="noopener noreferrer">Site oficial da Microsoft ↗</a>
+                    </article>
+                </section>
+
+                <section class="page" id="page-friends">
+                    <div class="page-title"><div class="eyebrow">SOCIAL</div><h1>Amigos<span>.</span></h1><p>Uma área preparada para futuras funções sociais.</p></div>
+                    <article class="panel empty-state"><div class="empty-icon">♧</div><h2>Sua lista começa aqui</h2><p>A lista de amigos ainda não está conectada a um serviço de contas. Nenhum usuário será exibido até essa função ser implementada.</p></article>
+                </section>
+
+                <section class="page" id="page-settings">
+                    <div class="page-title"><div class="eyebrow">PERSONALIZAÇÃO</div><h1>Configurações<span>.</span></h1><p>Informações e opções básicas do Lunar Client.</p></div>
+                    <article class="panel settings-list">
+                        <div class="setting-item"><div><strong>Nome do cliente</strong><small id="settingAppName">Lunar Client</small></div><span class="pill">ATIVO</span></div>
+                        <div class="setting-item"><div><strong>Endereço local</strong><small>127.0.0.1:3000</small></div><span class="pill">LOCAL</span></div>
+                        <div class="setting-item"><div><strong>Atualização de métricas</strong><small>Consulta automática periódica</small></div><span class="pill">5 SEG</span></div>
+                        <div class="setting-item"><div><strong>Modo de execução</strong><small>Backend Python + Flask</small></div><span class="pill">PYTHON</span></div>
+                    </article>
+                </section>
+
+                <footer class="footer"><span>☾ LUNAR CLIENT</span><span>Interface local · Em desenvolvimento</span></footer>
+            </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+  </html>
